@@ -1,17 +1,33 @@
-name: 'Terraform'
+name: Automate snipe-IT application using Terraform
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+  workflow_dispatch:
 
-env:
-  ARM_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
-  ARM_CLIENT_SECRET: ${{secrets.AZURE_CLIENT_SECRET}}
-  ARM_TENANT_ID: ${{secrets.AZURE_SUBSCRIPTION_ID}} 
-  ARM_SUBSCRIPTION_ID: ${{secrets.AZURE_TEANANT_ID}}
-  ROOT_PATH: '${{github.workspace}}/terraform'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
 
- run: |
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.6.3
+
+      - name: Deploy Infrastucture
+        env: 
+         ARM_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
+         ARM_CLIENT_SECRET: ${{secrets.AZURE_CLIENT_SECRET}}
+         ARM_TENANT_ID: ${{secrets.AZURE_SUBSCRIPTION_ID}} 
+         ARM_SUBSCRIPTION_ID: ${{secrets.AZURE_TEANANT_ID}}
+         ROOT_PATH: '${{github.workspace}}/terraform'
+    
+        run: |
           cd ${{ github.workspace }}/terraform
           terraform init --upgrade
           terraform plan
