@@ -1,9 +1,8 @@
-name: Terraform CI/CD using Github Actions
+name: 'Terraform'
 
 on:
-  push: 
-    branches:
-      - Harsh-Tasks 
+  push:
+    branches: [ "main" ]
 
 env:
   ARM_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
