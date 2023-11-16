@@ -1,7 +1,7 @@
 name: Terraform CI/CD using Github Actions
 
 on:
-  push:
+  push: 
     branches:
       - Harsh-Tasks 
 
